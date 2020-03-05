@@ -4,4 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"/>
+    tools:context=".MainActivity">
+
+    <com.bitvale.lavafab.LavaFab
+        android:id="@+id/lava_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:lavaBackgroundColor="@color/floatingActionButtonColor"
+        app:lavaChild="left|top"
+        app:lavaDrawShadow="true"
+        app:lavaLeftIcon="@drawable/ic_add_black_24dp"
+        app:lavaParentIcon="@drawable/ic_mode_edit_black_24dp"
+        app:lavaParentSize="84dp"
+        app:lavaTopIcon="@drawable/ic_format_list_bulleted_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
