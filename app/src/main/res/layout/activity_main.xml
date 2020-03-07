@@ -15,10 +15,10 @@
         app:lavaBackgroundColor="@color/floatingActionButtonColor"
         app:lavaChild="left|top"
         app:lavaDrawShadow="true"
-        app:lavaLeftIcon="@drawable/ic_add_black_24dp"
+        app:lavaLeftIcon="@drawable/ic_format_list_bulleted_black_24dp"
         app:lavaParentIcon="@drawable/ic_mode_edit_black_24dp"
         app:lavaParentSize="84dp"
-        app:lavaTopIcon="@drawable/ic_format_list_bulleted_black_24dp"
+        app:lavaTopIcon="@drawable/ic_add_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
