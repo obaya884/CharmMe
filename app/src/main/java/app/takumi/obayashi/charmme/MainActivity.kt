@@ -2,7 +2,6 @@ package app.takumi.obayashi.charmme
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -15,16 +14,20 @@ class MainActivity : AppCompatActivity() {
         with(lava_fab) {
             setParentOnClickListener { lava_fab.trigger() }
             setChildOnClickListener(com.bitvale.lavafab.Child.TOP) { startAddActivity() }
-            setChildOnClickListener(com.bitvale.lavafab.Child.LEFT) { showToast() }
+            setChildOnClickListener(com.bitvale.lavafab.Child.LEFT) { startListActivity() }
         }
 
     }
 
     private fun startAddActivity() {
-        val addActivity = Intent(this, AddActivity::class.java)
-        startActivityForResult(addActivity, 0)
+        val activity = Intent(this, AddActivity::class.java)
+        startActivity(activity)
     }
 
-    private fun showToast() = Toast.makeText(this, "Child clicked", Toast.LENGTH_SHORT).show()
+    private fun startListActivity() {
+        val activity = Intent(this, ListActivity::class.java)
+        startActivity(activity)
+    }
+
 
 }
