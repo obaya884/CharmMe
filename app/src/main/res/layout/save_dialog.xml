@@ -9,8 +9,14 @@
         android:id="@+id/gestureName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dip"
-        android:text="ジェスチャー名" />
+        android:layout_marginRight="8dp"
+        android:hint="ジェスチャー名" />
+
+    <TextView
+        android:id="@+id/effectTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="持続時間"></TextView>
 
     <ImageView
         android:id="@+id/gestureBitMap"

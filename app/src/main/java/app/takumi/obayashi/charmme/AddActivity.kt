@@ -20,28 +20,34 @@ class AddActivity : AppCompatActivity() {
         // GestureLibrary取得
         gestureLibrary = getMyGestureLibrary()
 
-        addFloatingActionButton.setOnClickListener {
-            val saveDialog = layoutInflater.inflate(R.layout.save_dialog, null)
+        readGesture.addOnGesturePerformedListener { _, gesture ->
 
-            // ジェスチャー取得
-            val gesture = readGesture.gesture
+            if (effectEditText.text.isEmpty() && timeEditText.text.isEmpty()) {
+                Toast.makeText(this, "効果名と持続時間を入力してください", Toast.LENGTH_SHORT).show()
+            } else {
+                val saveDialog = layoutInflater.inflate(R.layout.save_dialog, null)
 
-            // ジェスチャーイメージ
-            val bitmap = gesture.toBitmap(128, 128, 10, -0x10000)
-            saveDialog.gestureBitMap.setImageBitmap(bitmap)
+                // ジェスチャーイメージ
+                val bitmap = gesture.toBitmap(128, 128, 10, -0x10000)
 
-            // ダイアログ表示
-            AlertDialog.Builder(this)
-                .setView(saveDialog)
-                .setPositiveButton("保存") { _, _ ->
-                    // ジェスチャー保存
-                    gestureLibrary!!.addGesture(effectEditText.text.toString(), gesture)
-                    // 保存
-                    gestureLibrary!!.save()
-                    Toast.makeText(this, "登録完了", Toast.LENGTH_SHORT).show()
-                }
-                .setNegativeButton("取消", null)
-                .show()
+                // ダイアログの要素に代入
+                saveDialog.gestureBitMap.setImageBitmap(bitmap)
+                saveDialog.gestureName.text = effectEditText.text
+                saveDialog.effectTime.text = timeEditText.text
+
+                // ダイアログ表示
+                AlertDialog.Builder(this)
+                    .setView(saveDialog)
+                    .setPositiveButton("保存") { _, _ ->
+                        // ジェスチャー保存
+                        gestureLibrary!!.addGesture(effectEditText.text.toString(), gesture)
+                        // 保存
+                        gestureLibrary!!.save()
+                        Toast.makeText(this, "登録完了", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("取消", null)
+                    .show()
+            }
 
         }
     }
