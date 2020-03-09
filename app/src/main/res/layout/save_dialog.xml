@@ -13,7 +13,7 @@
         android:hint="ジェスチャー名" />
 
     <TextView
-        android:id="@+id/effectTime"
+        android:id="@+id/effectDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="持続時間"></TextView>
