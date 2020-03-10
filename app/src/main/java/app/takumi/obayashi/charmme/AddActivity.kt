@@ -22,7 +22,6 @@ class AddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
 
-        // GestureLibrary取得
         setUpGestureLibrary()
 
         readGesture.addOnGesturePerformedListener { _, gesture ->
