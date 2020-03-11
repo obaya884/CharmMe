@@ -13,9 +13,15 @@
         android:background="@drawable/magic_book"
         android:fadeEnabled="false"
         android:gestureColor="#000"
-        android:gestureStrokeWidth="20"
+        android:gestureStrokeWidth="48"
         android:gestureStrokeType="single"
         android:uncertainGestureColor="#3c3c3c" />
+
+    <ImageView
+        android:id="@+id/gestureImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/gesture_image" />
 
     <com.bitvale.lavafab.LavaFab
         android:id="@+id/lava_fab"
@@ -24,6 +30,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:elevation="5dp"
         app:lavaBackgroundColor="@color/floatingActionButtonColor"
         app:lavaChild="left|top"
         app:lavaDrawShadow="true"

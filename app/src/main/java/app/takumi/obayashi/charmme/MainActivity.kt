@@ -4,10 +4,12 @@ import android.content.Intent
 import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
 import android.gesture.Prediction
+import android.graphics.*
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmResults
@@ -25,13 +27,13 @@ class MainActivity : AppCompatActivity() {
     private var charmList: RealmResults<Charm>? = null
     private var gestureLibrary: GestureLibrary? = null
 
+    private var mPaint: Paint? = null
+    private var mBitmap: Bitmap? = null
+    private var mCanvas: Canvas? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        timerViewLayout.visibility = INVISIBLE
-        makeCharmList()
-        setUpGestureLibrary()
 
         with(lava_fab) {
             setParentOnClickListener { lava_fab.trigger() }
@@ -43,34 +45,62 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        makeCharmList()
+        setUpGestureLibrary()
+        setUpPaint()
+        timerViewLayout.visibility = INVISIBLE
+
         readGesture.addOnGesturePerformedListener { _, gesture ->
             val predictions: ArrayList<Prediction>? = gestureLibrary?.recognize(gesture)
             val mostLikelyPrediction: Prediction? = predictions?.maxBy { it.score }
-
             val charm = charmList?.find { it.name == mostLikelyPrediction?.name }
-
             startCharmTimer(charm!!)
+
+            if (gesture.strokesCount > 0) {
+                for (stroke in gesture.strokes) {
+                    val path: Path = stroke.path
+                    mCanvas!!.drawPath(path, mPaint!!)
+                }
+                gestureImage.setImageBitmap(mBitmap)
+            }
         }
+
+        readGesture.viewTreeObserver
+            .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    readGesture.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    mBitmap = Bitmap.createBitmap(
+                        readGesture.width,
+                        readGesture.height,
+                        Bitmap.Config.ARGB_8888
+                    )
+                    mCanvas = Canvas(mBitmap!!)
+                }
+            })
     }
 
     private fun startCharmTimer(charm: Charm) {
         timerViewLayout.visibility = VISIBLE
         timerViewLayout.charmNameText.text = charm.name
         readGesture.isEnabled = false
+        lava_fab.visibility = INVISIBLE
+        lava_fab.isEnabled = false
 
         object : CountDownTimer((charm.duration * 1000).toLong(), 1000) {
 
             override fun onFinish() {
                 timerViewLayout.visibility = INVISIBLE
                 readGesture.isEnabled = true
+                lava_fab.visibility = VISIBLE
+                lava_fab.isEnabled = true
+                gestureImage.setImageDrawable(null)
+                mCanvas!!.drawColor(0, PorterDuff.Mode.CLEAR)
             }
 
             override fun onTick(millisUntilFinished: Long) {
                 val minutes = millisUntilFinished / 1000 / 60
                 val seconds = millisUntilFinished / 1000 % 60
-
                 val remainTime = String.format(Locale.JAPAN, "%02d:%02d", minutes, seconds)
-
                 timerViewLayout.timerText.text = remainTime
             }
         }.start()
@@ -93,5 +123,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeCharmList() {
         charmList = realm.where<Charm>().findAll().sort("createdAt", Sort.ASCENDING)
+    }
+
+    private fun setUpPaint() {
+        mPaint = Paint()
+        mPaint?.style = Paint.Style.STROKE
+        mPaint?.strokeWidth = 48F
+        mPaint?.strokeCap = Paint.Cap.ROUND
+        mPaint?.strokeJoin = Paint.Join.ROUND
+        mPaint?.color = Color.parseColor("#488FAF")
+        mPaint?.setShadowLayer(60F, 0F, 0F, Color.parseColor("#5DCEFF"));
     }
 }
