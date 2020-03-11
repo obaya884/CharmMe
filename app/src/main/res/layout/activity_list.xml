@@ -18,4 +18,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <com.bitvale.lavafab.LavaFab
+        android:id="@+id/lava_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        app:lavaBackgroundColor="@color/floatingActionButtonColor"
+        app:lavaChild="left|top"
+        app:lavaDrawShadow="true"
+        app:lavaLeftIcon="@drawable/ic_magic_book"
+        app:lavaParentIcon="@drawable/ic_magic_wand"
+        app:lavaParentSize="84dp"
+        app:lavaTopIcon="@drawable/ic_add_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
