@@ -6,13 +6,15 @@ import android.gesture.GestureLibrary
 import android.gesture.Prediction
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.widget.Toast
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        timerViewLayout.visibility = INVISIBLE
         makeCharmList()
         setUpGestureLibrary()
 
@@ -47,25 +50,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startCharmTimer(charm: Charm) {
+        timerViewLayout.visibility = VISIBLE
+        timerViewLayout.charmNameText.text = charm.name
+        readGesture.isEnabled = false
 
-        Toast.makeText(
-            this,
-            "ジェスチャー名 :" + charm.name +
-                    "\nジェスチャータイム：" + charm.duration,
-            Toast.LENGTH_SHORT
-        ).show()
+        object : CountDownTimer((charm.duration * 1000).toLong(), 1000) {
 
-        var timer: CountDownTimer =
-            object : CountDownTimer((charm.duration * 1000).toLong(), 1000) {
-
-                override fun onFinish() {
-
-                }
-
-                override fun onTick(millisUntilFinished: Long) {
-
-                }
+            override fun onFinish() {
+                timerViewLayout.visibility = INVISIBLE
+                readGesture.isEnabled = true
             }
+
+            override fun onTick(millisUntilFinished: Long) {
+                val minutes = millisUntilFinished / 1000 / 60
+                val seconds = millisUntilFinished / 1000 % 60
+
+                val remainTime = String.format(Locale.JAPAN, "%02d:%02d", minutes, seconds)
+
+                timerViewLayout.timerText.text = remainTime
+            }
+        }.start()
     }
 
     private fun startAddActivity() {
