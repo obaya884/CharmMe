@@ -13,9 +13,15 @@
         android:background="@drawable/magic_book"
         android:fadeEnabled="false"
         android:gestureColor="#000"
-        android:gestureStrokeWidth="20"
+        android:gestureStrokeWidth="48"
         android:gestureStrokeType="single"
         android:uncertainGestureColor="#3c3c3c" />
+
+    <ImageView
+        android:id="@+id/gestureImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/gesture_image" />
 
     <com.bitvale.lavafab.LavaFab
         android:id="@+id/lava_fab"
@@ -24,6 +30,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:elevation="5dp"
         app:lavaBackgroundColor="@color/floatingActionButtonColor"
         app:lavaChild="left|top"
         app:lavaDrawShadow="true"
@@ -34,11 +41,12 @@
 
     <LinearLayout
         android:id="@+id/timerViewLayout"
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
         android:layout_marginTop="80dp"
-        android:background="#410809"
+        android:background="@drawable/shape_timer_view_rounded_corner"
+        android:elevation="5dp"
         android:orientation="vertical"
         android:padding="8dp">
 
@@ -46,8 +54,9 @@
             android:id="@+id/charmNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="Charm Name"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="casual"
+            android:text="@string/charm_name"
             android:textAlignment="center"
             android:textColor="#D9AF4D"
             android:textSize="24sp" />
@@ -56,8 +65,8 @@
             android:id="@+id/timerText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="Remain Time"
+            android:fontFamily="casual"
+            android:text="@string/remain_time"
             android:textAlignment="center"
             android:textColor="#D9AF4D"
             android:textSize="24sp" />
