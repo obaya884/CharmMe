@@ -34,11 +34,12 @@
 
     <LinearLayout
         android:id="@+id/timerViewLayout"
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
         android:layout_marginTop="80dp"
-        android:background="#410809"
+        android:background="@drawable/shape_timer_view_rounded_corner"
+        android:elevation="5dp"
         android:orientation="vertical"
         android:padding="8dp">
 
@@ -46,8 +47,9 @@
             android:id="@+id/charmNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="Charm Name"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="casual"
+            android:text="@string/charm_name"
             android:textAlignment="center"
             android:textColor="#D9AF4D"
             android:textSize="24sp" />
@@ -56,8 +58,8 @@
             android:id="@+id/timerText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="Remain Time"
+            android:fontFamily="casual"
+            android:text="@string/remain_time"
             android:textAlignment="center"
             android:textColor="#D9AF4D"
             android:textSize="24sp" />

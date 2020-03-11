@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CharmMe</string>
+    <string name="charm_name">Charm Name</string>
+    <string name="remain_time">Remain Time</string>
 </resources>
