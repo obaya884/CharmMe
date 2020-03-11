@@ -1,5 +1,6 @@
 package app.takumi.obayashi.charmme
 
+import android.content.Intent
 import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
 import android.os.Bundle
@@ -10,6 +11,7 @@ import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 
 class ListActivity : AppCompatActivity() {
@@ -31,6 +33,17 @@ class ListActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        with(lava_fab) {
+            setParentOnClickListener { lava_fab.trigger() }
+            setChildOnClickListener(com.bitvale.lavafab.Child.TOP) {
+                startAddActivity()
+                lava_fab.collapse()
+            }
+            setChildOnClickListener(com.bitvale.lavafab.Child.LEFT) {
+                startMainActivity()
+                lava_fab.collapse()
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -60,6 +73,16 @@ class ListActivity : AppCompatActivity() {
             true
         )
         recyclerView.adapter = adapter
+    }
+
+    private fun startAddActivity() {
+        finish()
+        val activity = Intent(this, AddActivity::class.java)
+        startActivity(activity)
+    }
+
+    private fun startMainActivity() {
+        finish()
     }
 }
 

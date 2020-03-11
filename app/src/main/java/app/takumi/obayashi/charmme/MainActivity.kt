@@ -35,8 +35,12 @@ class MainActivity : AppCompatActivity() {
 
         with(lava_fab) {
             setParentOnClickListener { lava_fab.trigger() }
-            setChildOnClickListener(com.bitvale.lavafab.Child.TOP) { startAddActivity() }
-            setChildOnClickListener(com.bitvale.lavafab.Child.LEFT) { startListActivity() }
+            setChildOnClickListener(com.bitvale.lavafab.Child.TOP) {
+                startAddActivity { lava_fab.collapse() }
+            }
+            setChildOnClickListener(com.bitvale.lavafab.Child.LEFT) {
+                startListActivity { lava_fab.collapse() }
+            }
         }
 
         readGesture.addOnGesturePerformedListener { _, gesture ->
@@ -72,12 +76,12 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun startAddActivity() {
+    private fun startAddActivity(function: () -> Unit) {
         val activity = Intent(this, AddActivity::class.java)
         startActivity(activity)
     }
 
-    private fun startListActivity() {
+    private fun startListActivity(function: () -> Unit) {
         val activity = Intent(this, ListActivity::class.java)
         startActivity(activity)
     }
