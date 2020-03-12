@@ -12,9 +12,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
+import io.realm.RealmResults
+import io.realm.Sort
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_add.*
 import java.util.*
 
@@ -25,6 +28,7 @@ class AddActivity : AppCompatActivity() {
     private val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
+    private var charmList: RealmResults<Charm>? = null
 
     private var mPaint: Paint? = null
     private var mBitmap: Bitmap? = null
@@ -35,6 +39,7 @@ class AddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
 
+        makeCharmList()
         setUpGestureLibrary()
         setUpPaint()
 
@@ -83,6 +88,9 @@ class AddActivity : AppCompatActivity() {
         val isFillTime = timeEditText.text.isNotBlank()
         val isDrawnGesture = (drawnGesture != null)
 
+        val newCharmName = effectEditText.text.toString()
+        val newCharmDuration = timeEditText.text.toString()
+
         var errorMessage = ""
         if (!isFillEffect) {
             errorMessage += if (errorMessage.isEmpty()) {
@@ -106,24 +114,32 @@ class AddActivity : AppCompatActivity() {
             }
         }
 
+        // 同一名登録されないかのチェック
+        charmList?.forEach {
+            if (it.name == newCharmName) {
+                Snackbar.make(view, "${newCharmName}は既に登録されています", LENGTH_LONG).show()
+                return@OnClickListener
+            }
+        }
+
         if (isFillEffect && isFillTime && isDrawnGesture) {
             // ジェスチャーライブラリの保存
-            gestureLibrary!!.addGesture(effectEditText.text.toString(), drawnGesture)
+            gestureLibrary!!.addGesture(newCharmName, drawnGesture)
             gestureLibrary!!.save()
 
             realm.executeTransaction {
                 val charm =
                     it.createObject(Charm::class.java, UUID.randomUUID().toString())
-                charm.name = effectEditText.text.toString()
-                charm.duration = timeEditText.text.toString().toInt()
+                charm.name = newCharmName
+                charm.duration = newCharmDuration.toInt()
             }
 
             val intent = Intent()
-            intent.putExtra("message", "${effectEditText.text.toString()}が使えるようになった！")
+            intent.putExtra("message", "${newCharmName}が使えるようになった！")
             setResult(Activity.RESULT_OK, intent)
             finish()
         } else {
-            Snackbar.make(view, "${errorMessage}を入力してください", LENGTH_SHORT).show()
+            Snackbar.make(view, "${errorMessage}を入力してください", LENGTH_LONG).show()
 
         }
     }
@@ -144,6 +160,10 @@ class AddActivity : AppCompatActivity() {
         mPaint?.strokeWidth = 48F
         mPaint?.strokeCap = Paint.Cap.ROUND
         mPaint?.strokeJoin = Paint.Join.ROUND
+    }
+
+    private fun makeCharmList() {
+        charmList = realm.where<Charm>().findAll().sort("createdAt", Sort.ASCENDING)
     }
 
 }
