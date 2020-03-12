@@ -81,6 +81,12 @@ class AddActivity : AppCompatActivity() {
 
         backFloatingActionButton.setOnClickListener { finish() }
         addFloatingActionButton.setOnClickListener(addFloatingActionButtonClickListener)
+        timeEditText.setOnClickListener(timeEditTextClickListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
     }
 
     private val addFloatingActionButtonClickListener = View.OnClickListener { view: View ->
@@ -144,9 +150,8 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        realm.close()
+    private val timeEditTextClickListener = View.OnClickListener {
+        TimePickerFragment().show(supportFragmentManager, "timePicker")
     }
 
     private fun setUpGestureLibrary() {
