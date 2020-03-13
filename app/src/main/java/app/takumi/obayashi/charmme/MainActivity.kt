@@ -79,15 +79,19 @@ class MainActivity : AppCompatActivity() {
         readGesture.addOnGesturePerformedListener { _, gesture ->
             val predictions: ArrayList<Prediction>? = gestureLibrary?.recognize(gesture)
             val mostLikelyPrediction: Prediction? = predictions?.maxBy { it.score }
-            val charm = charmList?.find { it.name == mostLikelyPrediction?.name }
-            startCharmTimer(charm!!)
 
-            if (gesture.strokesCount > 0) {
-                for (stroke in gesture.strokes) {
-                    val path: Path = stroke.path
-                    mCanvas!!.drawPath(path, mPaint!!)
+            if (mostLikelyPrediction?.score!! > 2) {
+                val charm = charmList?.find { it.name == mostLikelyPrediction?.name }
+                startCharmTimer(charm!!)
+                if (gesture.strokesCount > 0) {
+                    for (stroke in gesture.strokes) {
+                        val path: Path = stroke.path
+                        mCanvas!!.drawPath(path, mPaint!!)
+                    }
+                    gestureImage.setImageBitmap(mBitmap)
                 }
-                gestureImage.setImageBitmap(mBitmap)
+            } else {
+                Snackbar.make(rootLayout, "該当する魔法が見つかりませんでした", LENGTH_LONG).show()
             }
         }
 
