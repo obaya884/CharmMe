@@ -78,7 +78,7 @@ class ListActivity : AppCompatActivity() {
     private fun startAddActivity() {
         finish()
         val activity = Intent(this, AddActivity::class.java)
-        startActivity(activity)
+        startActivityForResult(activity, 1000)
     }
 
     private fun backMainActivity() {
