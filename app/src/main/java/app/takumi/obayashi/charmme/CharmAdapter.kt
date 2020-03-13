@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.list_item.view.*
+import java.util.concurrent.TimeUnit
 
 
 class CharmAdapter(
@@ -35,7 +36,19 @@ class CharmAdapter(
 
         holder.gestureImage.setImageBitmap(gestureBitMap)
         holder.effectName.text = charm.name
-        holder.effectDuration.text = charm.duration.toString()
+
+
+        val millis: Long = (charm.duration * 1000).toLong()
+        val timeString = String.format(
+            "%02d:%02d:%02d",
+            TimeUnit.MILLISECONDS.toHours(millis),
+            TimeUnit.MILLISECONDS.toMinutes(millis) -
+                    TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+            TimeUnit.MILLISECONDS.toSeconds(millis) -
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+        )
+        holder.effectDuration.text = timeString
+
 
         holder.container.setOnClickListener {
             listener.onItemClick(charm)

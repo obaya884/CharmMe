@@ -115,7 +115,7 @@ class AddActivity : FragmentActivity(), TimePickerDialog.OnTimeSetListener {
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         val calender = Calendar.getInstance()
         calender.set(0, 0, 0, hourOfDay, minute)
-        val setTime = SimpleDateFormat("HH:mm", Locale.JAPAN).format(calender.time)
+        val setTime = SimpleDateFormat("HH:mm", Locale.JAPAN).format(calender.time) + ":00"
         timeEditText.setText(setTime)
     }
 
