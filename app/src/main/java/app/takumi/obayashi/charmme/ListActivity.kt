@@ -98,6 +98,7 @@ class ListActivity : AppCompatActivity() {
 
     private fun startAddActivity() {
         finish()
+        //TODO 見直し
         val activity = Intent(this, AddActivity::class.java)
         startActivityForResult(activity, 1000)
     }
