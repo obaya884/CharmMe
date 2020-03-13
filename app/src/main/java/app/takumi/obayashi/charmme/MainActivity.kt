@@ -1,5 +1,6 @@
 package app.takumi.obayashi.charmme
 
+import android.app.Activity
 import android.content.Intent
 import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
@@ -7,10 +8,13 @@ import android.gesture.Prediction
 import android.graphics.*
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
+import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
@@ -79,6 +83,19 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
+    override fun onResume() {
+        super.onResume()
+        setUpGestureLibrary()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
+            Snackbar.make(rootLayout, data?.extras?.getString("message").toString(), LENGTH_LONG)
+                .show()
+        }
+    }
+
     private fun startCharmTimer(charm: Charm) {
         timerViewLayout.visibility = VISIBLE
         timerViewLayout.charmNameText.text = charm.name
@@ -108,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startAddActivity(function: () -> Unit) {
         val activity = Intent(this, AddActivity::class.java)
-        startActivity(activity)
+        startActivityForResult(activity, 1000)
     }
 
     private fun startListActivity(function: () -> Unit) {
@@ -117,6 +134,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpGestureLibrary() {
+        Log.d("log", "set up gesture library")
         gestureLibrary = GestureLibraries.fromFile("$filesDir/gestures")
         gestureLibrary?.load()
     }

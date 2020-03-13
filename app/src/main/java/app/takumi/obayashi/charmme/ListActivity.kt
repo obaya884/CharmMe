@@ -40,7 +40,7 @@ class ListActivity : AppCompatActivity() {
                 lava_fab.collapse()
             }
             setChildOnClickListener(com.bitvale.lavafab.Child.LEFT) {
-                startMainActivity()
+                backMainActivity()
                 lava_fab.collapse()
             }
         }
@@ -81,7 +81,7 @@ class ListActivity : AppCompatActivity() {
         startActivity(activity)
     }
 
-    private fun startMainActivity() {
+    private fun backMainActivity() {
         finish()
     }
 }
