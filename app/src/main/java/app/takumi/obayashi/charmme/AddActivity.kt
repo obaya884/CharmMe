@@ -1,6 +1,7 @@
 package app.takumi.obayashi.charmme
 
 import android.app.Activity
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.gesture.Gesture
 import android.gesture.GestureLibraries
@@ -11,7 +12,8 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TimePicker
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
@@ -19,10 +21,11 @@ import io.realm.RealmResults
 import io.realm.Sort
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_add.*
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.pow
 
-
-class AddActivity : AppCompatActivity() {
+class AddActivity : FragmentActivity(), TimePickerDialog.OnTimeSetListener {
 
     private var gestureLibrary: GestureLibrary? = null
     private val realm: Realm by lazy {
@@ -89,6 +92,13 @@ class AddActivity : AppCompatActivity() {
         realm.close()
     }
 
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        val calender = Calendar.getInstance()
+        calender.set(0, 0, 0, hourOfDay, minute)
+        val setTime = SimpleDateFormat("HH:mm", Locale.JAPAN).format(calender.time)
+        timeEditText.setText(setTime)
+    }
+
     private val addFloatingActionButtonClickListener = View.OnClickListener { view: View ->
         val isFillEffect = effectEditText.text.isNotBlank()
         val isFillTime = timeEditText.text.isNotBlank()
@@ -137,7 +147,7 @@ class AddActivity : AppCompatActivity() {
                 val charm =
                     it.createObject(Charm::class.java, UUID.randomUUID().toString())
                 charm.name = newCharmName
-                charm.duration = newCharmDuration.toInt()
+                charm.duration = string2TimeInt(newCharmDuration)
             }
 
             val intent = Intent()
@@ -171,4 +181,13 @@ class AddActivity : AppCompatActivity() {
         charmList = realm.where<Charm>().findAll().sort("createdAt", Sort.ASCENDING)
     }
 
+    private fun string2TimeInt(timeString: String): Int {
+        val timeArray = timeString.split(":")
+        var timeDuration = 0.0
+
+        for ((index, value) in timeArray.reversed().withIndex()) {
+            timeDuration += value.toDouble() * 60.0.pow(index)
+        }
+        return timeDuration.toInt()
+    }
 }
