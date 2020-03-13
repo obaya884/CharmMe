@@ -23,6 +23,7 @@ import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -136,9 +137,24 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTick(millisUntilFinished: Long) {
-                val minutes = millisUntilFinished / 1000 / 60
-                val seconds = millisUntilFinished / 1000 % 60
-                val remainTime = String.format(Locale.JAPAN, "%02d:%02d", minutes, seconds)
+                val remainTime =
+                    String.format(
+                        "%02d:%02d:%02d",
+                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
+                                TimeUnit.HOURS.toMinutes(
+                                    TimeUnit.MILLISECONDS.toHours(
+                                        millisUntilFinished
+                                    )
+                                ),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(
+                                    TimeUnit.MILLISECONDS.toMinutes(
+                                        millisUntilFinished
+                                    )
+                                )
+                    )
+
                 timerViewLayout.timerText.text = remainTime
             }
         }.start()
