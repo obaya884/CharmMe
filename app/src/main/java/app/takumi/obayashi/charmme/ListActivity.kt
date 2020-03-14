@@ -1,10 +1,12 @@
 package app.takumi.obayashi.charmme
 
 import android.content.Intent
+import android.gesture.Gesture
 import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
@@ -87,8 +89,18 @@ class ListActivity : AppCompatActivity() {
             charmList,
             gestureLibrary,
             object : CharmAdapter.OnItemClickListener {
-                override fun onItemClick(item: Charm) {
-                    // TODO タップ時に編集画面へ
+                override fun onItemClick(realmItem: Charm, gesture: Gesture) {
+                    AlertDialog.Builder(this@ListActivity)
+                        .setTitle("削除")
+                        .setMessage("この魔法を忘れますか？")
+                        .setPositiveButton("OK") { _, _ ->
+                            gestureLibrary?.removeGesture(realmItem.name, gesture)
+                            realm.executeTransaction {
+                                realmItem.deleteFromRealm()
+                            }
+                        }
+                        .setNegativeButton("Cancel") { _, _ -> }
+                        .show()
                 }
             },
             true
