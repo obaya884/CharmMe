@@ -1,6 +1,7 @@
 package app.takumi.obayashi.charmme
 
 import android.content.Context
+import android.gesture.Gesture
 import android.gesture.GestureLibrary
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +52,7 @@ class CharmAdapter(
 
 
         holder.container.setOnClickListener {
-            listener.onItemClick(charm)
+            listener.onItemClick(charm, gestures?.get(0)!!)
         }
     }
 
@@ -68,6 +69,6 @@ class CharmAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: Charm)
+        fun onItemClick(realmItem: Charm, gesture: Gesture)
     }
 }
