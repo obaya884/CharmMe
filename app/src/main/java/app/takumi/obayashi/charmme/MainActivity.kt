@@ -8,11 +8,12 @@ import android.gesture.Prediction
 import android.graphics.*
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
@@ -138,6 +139,29 @@ class MainActivity : AppCompatActivity() {
                 lava_fab.isEnabled = true
                 gestureImage.setImageDrawable(null)
                 mCanvas!!.drawColor(0, PorterDuff.Mode.CLEAR)
+
+                val typeface = Typeface.createFromAsset(assets, "holidaymdjp.otf")
+
+                val titleView = TextView(this@MainActivity)
+                titleView.text = "魔法の効果が切れたよ"
+                titleView.textSize = 30F
+                titleView.typeface = typeface
+                titleView.gravity = Gravity.CENTER
+                titleView.setTextColor(Color.WHITE)
+                titleView.setBackgroundResource(R.color.colorAccent)
+                titleView.setPadding(40, 40, 40, 40)
+
+                val messageView = TextView(this@MainActivity)
+                messageView.text = "新しい魔法をかけよう！"
+                messageView.textSize = 18F
+                messageView.typeface = typeface
+                messageView.setPadding(40, 40, 40, 40)
+
+                val alertDialog = androidx.appcompat.app.AlertDialog.Builder(this@MainActivity)
+                    .setCustomTitle(titleView)
+                    .setView((messageView))
+                    .setPositiveButton("OK") { _, _ -> }
+                alertDialog.show()
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -175,7 +199,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpGestureLibrary() {
-        Log.d("log", "set up gesture library")
         gestureLibrary = GestureLibraries.fromFile("$filesDir/gestures")
         gestureLibrary?.load()
     }
