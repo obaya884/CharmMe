@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/holidaymdjp"
                 android:gravity="center_vertical"
                 android:text="効果名"
                 android:textSize="30sp" />
@@ -48,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/holidaymdjp"
                 android:gravity="bottom|end"
                 android:text="持続時間"
                 android:textAlignment="textEnd"
