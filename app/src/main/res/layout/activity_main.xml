@@ -61,7 +61,7 @@
             android:text="@string/charm_name"
             android:textAlignment="center"
             android:textColor="#D9AF4D"
-            android:textSize="24sp" />
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/timerText"
@@ -71,7 +71,7 @@
             android:text="@string/remain_time"
             android:textAlignment="center"
             android:textColor="#D9AF4D"
-            android:textSize="24sp" />
+            android:textSize="30sp" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
