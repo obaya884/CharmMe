@@ -2,6 +2,7 @@ package app.takumi.obayashi.charmme
 
 import android.app.Activity
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.gesture.Gesture
 import android.gesture.GestureLibraries
@@ -12,6 +13,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.inputmethod.InputMethodManager
 import android.widget.TimePicker
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
@@ -25,7 +27,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.pow
 
+
 class AddActivity : FragmentActivity(), TimePickerDialog.OnTimeSetListener {
+
+    private var inputMethodManager: InputMethodManager? = null
 
     private var gestureLibrary: GestureLibrary? = null
     private val realm: Realm by lazy {
@@ -65,6 +70,8 @@ class AddActivity : FragmentActivity(), TimePickerDialog.OnTimeSetListener {
         makeCharmList()
         setUpGestureLibrary()
         setUpPaint()
+
+        inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
 
         readGesture.viewTreeObserver
             .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -110,6 +117,18 @@ class AddActivity : FragmentActivity(), TimePickerDialog.OnTimeSetListener {
     override fun onDestroy() {
         super.onDestroy()
         realm.close()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        // キーボードを隠す
+        inputMethodManager?.hideSoftInputFromWindow(
+            rootLayout.windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
+        // 背景にフォーカスを移す
+        rootLayout.requestFocus();
+
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
