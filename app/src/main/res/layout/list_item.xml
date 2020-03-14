@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    card_view:cardCornerRadius="10dp"
     card_view:cardElevation="2dp">
 
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="100dp"
+        android:background="@drawable/magic_list"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical"
@@ -18,11 +19,12 @@
 
         <ImageView
             android:id="@+id/gestureImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="8dp"
-            android:visibility="visible"></ImageView>
+            android:visibility="visible"
+            android:contentDescription="GestureImage" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,16 +38,22 @@
                 android:id="@+id/effectName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/holidaymdjp"
                 android:gravity="center_vertical"
                 android:text="効果名"
-                android:textSize="18sp" />
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/effectDuration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical|end"
-                android:text="持続時間" />
+                android:layout_weight="1"
+                android:fontFamily="@font/holidaymdjp"
+                android:gravity="bottom|end"
+                android:text="持続時間"
+                android:textAlignment="textEnd"
+                android:textSize="18sp" />
 
         </LinearLayout>
 

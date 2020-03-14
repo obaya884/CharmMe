@@ -4,8 +4,12 @@ import android.content.Intent
 import android.gesture.Gesture
 import android.gesture.GestureLibraries
 import android.gesture.GestureLibrary
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -90,9 +94,26 @@ class ListActivity : AppCompatActivity() {
             gestureLibrary,
             object : CharmAdapter.OnItemClickListener {
                 override fun onItemClick(realmItem: Charm, gesture: Gesture) {
-                    AlertDialog.Builder(this@ListActivity)
-                        .setTitle("削除")
-                        .setMessage("この魔法を忘れますか？")
+                    val typeface = Typeface.createFromAsset(assets, "holidaymdjp.otf")
+
+                    val titleView = TextView(this@ListActivity)
+                    titleView.text = "削除"
+                    titleView.textSize = 30F
+                    titleView.typeface = typeface
+                    titleView.gravity = Gravity.CENTER
+                    titleView.setTextColor(Color.WHITE)
+                    titleView.setBackgroundResource(R.color.colorAccent)
+                    titleView.setPadding(40, 40, 40, 40)
+
+                    val messageView = TextView(this@ListActivity)
+                    messageView.text = "この魔法を忘れますか？"
+                    messageView.textSize = 18F
+                    messageView.typeface = typeface
+                    messageView.setPadding(40, 40, 40, 40)
+
+                    val alertDialog = AlertDialog.Builder(this@ListActivity)
+                        .setCustomTitle(titleView)
+                        .setView((messageView))
                         .setPositiveButton("OK") { _, _ ->
                             gestureLibrary?.removeGesture(realmItem.name, gesture)
                             realm.executeTransaction {
@@ -100,7 +121,9 @@ class ListActivity : AppCompatActivity() {
                             }
                         }
                         .setNegativeButton("Cancel") { _, _ -> }
-                        .show()
+                    alertDialog.show()
+
+
                 }
             },
             true

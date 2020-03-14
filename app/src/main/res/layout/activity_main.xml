@@ -33,7 +33,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:elevation="5dp"
-        app:lavaBackgroundColor="@color/floatingActionButtonColor"
+        app:lavaBackgroundColor="#410809"
         app:lavaChild="left|top"
         app:lavaDrawShadow="true"
         app:lavaLeftIcon="@drawable/ic_format_list_bulleted_24dp"
@@ -57,21 +57,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:fontFamily="casual"
+            android:fontFamily="@font/holidaymdjp"
             android:text="@string/charm_name"
             android:textAlignment="center"
             android:textColor="#D9AF4D"
-            android:textSize="24sp" />
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/timerText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="casual"
+            android:fontFamily="@font/holidaymdjp"
             android:text="@string/remain_time"
             android:textAlignment="center"
             android:textColor="#D9AF4D"
-            android:textSize="24sp" />
+            android:textSize="30sp" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

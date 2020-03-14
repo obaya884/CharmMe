@@ -56,7 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="@font/holidaymdjp"
+                android:gravity="bottom"
                 android:text="コウカ"
                 android:textSize="18sp" />
 
@@ -66,8 +67,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:fontFamily="@font/holidaymdjp"
                 android:hint="Effect"
-                android:inputType="textPersonName" />
+                android:inputType="text"
+                android:textSize="30sp" />
 
         </LinearLayout>
 
@@ -83,7 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="@font/holidaymdjp"
+                android:gravity="bottom"
                 android:text="ジゾクジカン"
                 android:textSize="18sp" />
 
@@ -94,8 +98,10 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:focusable="false"
+                android:fontFamily="@font/holidaymdjp"
                 android:hint="Time"
-                android:inputType="none" />
+                android:inputType="none"
+                android:textSize="30sp" />
         </LinearLayout>
 
     </LinearLayout>

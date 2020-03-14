@@ -3,6 +3,7 @@ package app.takumi.obayashi.charmme
 import android.content.Context
 import android.gesture.Gesture
 import android.gesture.GestureLibrary
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,12 @@ class CharmAdapter(
 
         // ジェスチャーイメージ
         val gestures = gestureLibrary?.getGestures(charm.name)
-        val gestureBitMap = gestures?.get(0)?.toBitmap(80, 80, 10, -0x10000)
+        val gestureBitMap = gestures?.get(0)?.toBitmap(
+            100,
+            100,
+            10,
+            Color.parseColor("#333333")
+        )
 
         holder.gestureImage.setImageBitmap(gestureBitMap)
         holder.effectName.text = charm.name
